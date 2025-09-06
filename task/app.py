@@ -33,10 +33,14 @@ USER_PROMPT = """##RAG CONTEXT:
 embeddings_client = EmbeddingsClient(
     model_name='text-embedding-3-small',
     api_key=OPENAI_API_KEY
+    #TODO:
+    # model_name='text-embedding-3-small'
+    # api_key=OPENAI_API_KEY
 )
 completion_client = ChatCompletionClient(
-    model_name='gpt-4o',
-    api_key=OPENAI_API_KEY
+    #TODO:
+    # model_name='gpt-4o'
+    # api_key=OPENAI_API_KEY
 )
 
 text_processor = TextProcessor(
@@ -54,14 +58,15 @@ text_processor = TextProcessor(
 def main():
     print("🎯 Microwave RAG Assistant")
     print("="*100)
+
     load_context = input("\nLoad context to VectorDB (y/n)? > ").strip()
     if load_context.lower().strip() in ['y', 'yes']:
-        text_processor.process_text_file(
-            file_name='embeddings/microwave_manual.txt',
-            chunk_size=400,
-            overlap=40,
-            dimensions=384
-        )
+        # TODO:
+        #  With `text_processor` process text file:
+        #  - file_name: 'embeddings/microwave_manual.txt'
+        #  - chunk_size: 150 (or you can experiment, usually we set it as 300)
+        #  - overlap: 40 (chars overlap from previous chunk)
+
         print("="*100)
 
     conversation = Conversation()
@@ -78,28 +83,43 @@ def main():
 
         # Step 1: Retrieval
         print(f"{'=' * 100}\n🔍 STEP 1: RETRIEVAL\n{'-' * 100}")
-        context = text_processor.search(
-            search_mode=SearchMode.EUCLIDIAN_DISTANCE,
-            user_request=user_request,
-            top_k=5,
-            score_threshold=0.01,
-            dimensions=384
-        )
+        # TODO:
+        #  Get `context` by `user_request` via `text_processor.search()`:
+        #  - search_mode: SearchMode.COSINE_DISTANCE or SearchMode.EUCLIDIAN_DISTANCE (experiment with different)
+        #  - user_request: user_request
+        #  - top_k: 5 (limit of searched results in VectorDB), experiment with different numbers
+        #  - score_threshold: 0.5 (experiment with different numbers, 0.1 -> 0.99)
+        #  - dimensions=384
+        context = None
+
 
         # Step 2: Augmentation
         print(f"\n{'=' * 100}\n🔗 STEP 2: AUGMENTATION\n{'-' * 100}")
-        augmented_prompt = USER_PROMPT.format(context="\n\n".join(context), query=user_request)
-        conversation.add_message(
-            Message(Role.USER, augmented_prompt)
-        )
+        # TODO:
+        #  1. Make Augmentation:
+        #       - format USER_PROMPT:
+        #           - context="\n\n".join(context)
+        #           - query=user_request
+        #       - assign to `augmented_prompt`
+        #  2. Add User message with Augmented content to `conversation`
+        augmented_prompt = None
+
         print(f"Prompt:\n{augmented_prompt}")
+
 
         # Step 3: Generation
         print(f"\n{'=' * 100}\n🤖 STEP 3: GENERATION\n{'-' * 100}")
-        ai_message = completion_client.get_completion(conversation.get_messages())
+        # TODO:
+        #  1. Call `completion_client.get_completion()` with message history from conversation, and assign to `ai_message`
+        #  2. Add AI message to `conversation` history
         print(f"✅ RESPONSE:\n{ai_message.content}")
         print("=" * 100)
-        conversation.add_message(ai_message)
 
+# TODO:
+#  PAY ATTENTION THAT YOU NEED TO RUN Postgres DB ON THE 5433 WITH PGVECTOR EXTENSION!
+#  RUN docker-compose.yml
+#  Optional: Try to change `dimensions` parameter and check what impact it will have on the `score` while searching.
+#            (You need to change it in the `init.sql` and on the chunk generations + retrieval step)
 
+# APPLICATION ENTRY POINT
 main()

@@ -39,21 +39,38 @@ class EmbeddingsClient:
             "Content-Type": "application/json"
         }
         request_data = {
-            "input": inputs,
-            "dimensions": dimensions,
-            "model": self._model_name
+            #TODO: add:
+            # - inputs
+            # - dimensions
+            # - model
+            # https://platform.openai.com/docs/guides/embeddings?lang=curl
         }
 
         response = requests.post(url=self._endpoint, headers=headers, json=request_data, timeout=60)
 
         if response.status_code == 200:
-            response_json = response.json()
-            data = response_json.get("data", [])
+            # TODO: Get response:
+            #  Response JSON:
+            #  {
+            #     "data": [
+            #         {
+            #             "embedding": [
+            #                 0.19686688482761383,
+            #                 ...
+            #             ],
+            #             "index": 0,
+            #             "object": "embedding"
+            #         }
+            #     ],
+            #     ...
+            #  }
+            response_json = None # TODO: Parse to json (response.json())
+            data = None # TODO: Get `data`
             if print_response:
                 print("\n" + "=" * 50 + " RESPONSE " + "=" * 50)
                 print(json.dumps(response_json, indent=2))
                 print("=" * 108)
-            return self._from_data(data)
+            return None # TODO: Return self._from_data(data)
         raise Exception(f"HTTP {response.status_code}: {response.text}")
 
     def _from_data(self, data: list[dict]) -> dict[int, list[float]]:

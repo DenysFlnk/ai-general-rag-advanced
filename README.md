@@ -35,7 +35,6 @@ By completing this task, you will learn:
 4. **Project structure:**
    ```
    task/
-   ├── _constants.py                    🚧 TODO - Add DIAL API KEY
    ├── app.py                           🚧 TODO - Main RAG application
    ├── embeddings/
    │   ├── embeddings_client.py         🚧 TODO - DIAL embeddings client

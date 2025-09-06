@@ -54,43 +54,44 @@ class TextProcessor:
         if overlap >= chunk_size:
             raise ValueError("overlap should be lower than chunkSize")
 
-        if truncate_table:
-            self._truncate_table()
-
-        with open(file_name, 'r', encoding='utf-8') as file:
-            content = file.read()
-
-        chunks: list[str] = chunk_text(content, chunk_size, overlap)
-        embeddings: dict[int, list[float]] = self.embeddings_client.get_embeddings(chunks, dimensions)
+        # TODO:
+        #  1. Truncate table if truncate_table == True (call the `_truncate_table()` method)
+        #  2. Open file and get content:
+        #       a. with open(file_name, 'r', encoding='utf-8') as file:
+        #       b. assign file.read() to `content`
+        #  3. Generate text chunks from `content`, use method `chunk_text()`
+        #  4. Generate dict with indexed embeddings for generated `chunks` via `embeddings_client.get_embeddings()`
+        #     and assign them to `embeddings` variable
 
         print(f"Processing document: {file_name}")
         print(f"Total chunks: {len(chunks)}")
         print(f"Total embeddings: {len(embeddings)}")
 
-        for i in range(len(chunks)):
-            self._save_chunk(embeddings.get(i), chunks[i], file_name)
+        # TODO:
+        #  1. Iterate through len of `chunks` (for i in range(len(chunks)))
+        #  2. Save chunk with corresponding embedding to DB (use `_save_chunk()` method)
 
     def _truncate_table(self):
         """Truncate the vectors table"""
-        with self._get_connection() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute("TRUNCATE TABLE vectors")
-                conn.commit()
-                print("Table has been successfully truncated.")
+        # TODO:
+        #  1. Open connection (with self._get_connection() as conn)
+        #  2. Get `cursor` (with conn.cursor() as cursor)
+        #  3. Execute query `TRUNCATE TABLE vectors` with `cursor`
+        #  4. Make connection commit
 
     def _save_chunk(self, embedding: list[float], chunk: str, document_name: str):
         """Save chunk with embedding to database"""
-        vector_string = f"[{','.join(map(str, embedding))}]"
+        # TODO:
+        #  1. Need convert embeddings list[float] to string and wrap embeddings into []
+        #       - f"[{','.join(map(str, embedding))}]"
+        #       - assign to `vector_string` variable
+        #  2. Open connection to DB
+        #  3. Get `cursor`
+        #  4. Execute query:
+        #       - query: INSERT INTO vectors (document_name, text, embedding) VALUES (%s, %s, %s::vector)
+        #       - vars: (document_name, chunk, vector_string)
+        #  5. Make connection commit
 
-        with self._get_connection() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(
-                    "INSERT INTO vectors (document_name, text, embedding) VALUES (%s, %s, %s::vector)",
-                    (document_name, chunk, vector_string)
-                )
-                conn.commit()
-
-        print(f"Stored chunk from document: {document_name}")
 
 
     def search(
@@ -116,8 +117,12 @@ class TextProcessor:
         if score_threshold < 0 or score_threshold > 1:
             raise ValueError("score_threshold must be in [0.0..., 0.99...] range")
 
-        query_embedding = self.embeddings_client.get_embeddings(inputs=user_request, dimensions=dimensions)[0]
-        vector_string = f"[{','.join(map(str, query_embedding))}]"
+        # TODO:
+        #  1. Generate dict with indexed embeddings for generated `chunks` via `embeddings_client.get_embeddings()`.
+        #     With this request we convert original user request into embedding for further vector search in DB.
+        #  2. Need convert embeddings list[float] to string and wrap embeddings into []
+        #       - f"[{','.join(map(str, embedding))}]"
+        #       - assign to `vector_string` variable
 
         if search_mode == SearchMode.COSINE_DISTANCE:
             max_distance = 1.0 - score_threshold
@@ -127,8 +132,11 @@ class TextProcessor:
         retrieved_chunks = []
         with self._get_connection() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cursor:
-                cursor.execute(self._get_search_query(search_mode), (vector_string, vector_string, max_distance, top_k))
-                results = cursor.fetchall()
+                # TODO:
+                #  1. Execute query:
+                #       - query: Use `_get_search_query(search_mode)` method. Please take a look at query!
+                #       - vars: (vector_string, vector_string, max_distance, top_k)
+                #  2. Fetch all results with `cursor` into `results`
 
                 for row in results:
                     if search_mode == SearchMode.COSINE_DISTANCE:
