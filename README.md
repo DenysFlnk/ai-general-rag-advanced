@@ -83,6 +83,15 @@ Complete the implementation by filling in all the TODO sections across these fil
 - Complete the RAG pipeline: Retrieval → Augmentation → Generation
 - Handle user interaction and conversation management
 
+### 🔥 **Step 4: Additional task**
+There are 2 key questions you need to investigate:
+1. What happens when the database contains embeddings with 384 dimensions, but you search using an embedding with 385 dimensions?
+2. What happens when you use `text-embedding-3-small` for context generation but `voyage-3.5` for search (both have 384 dimensions)?
+
+Investigate both scenarios in your project implementation. To do that you need to implement EmbeddingClient for Anthropic `voyage-3.5` embedding model. https://docs.anthropic.com/en/docs/build-with-claude/embeddings#voyage-http-api
+
+
+
 ## 🔧 Implementation Details
 
 ### Database Schema
