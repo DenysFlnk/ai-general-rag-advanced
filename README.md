@@ -35,22 +35,22 @@ By completing this task, you will learn:
 4. **Project structure:**
    ```
    task/
-   ├── _constants.py                    # 🚧 TODO - Add DIAL API KEY
-   ├── app.py                           # 🚧 TODO - Main RAG application
+   ├── _constants.py                    🚧 TODO - Add DIAL API KEY
+   ├── app.py                           🚧 TODO - Main RAG application
    ├── embeddings/
-   │   ├── embeddings_client.py         # 🚧 TODO - DIAL embeddings client
-   │   ├── text_processor.py            # 🚧 TODO - Text processing and vector operations
-   │   └── microwave_manual.txt         # ✅ Knowledge base document
+   │   ├── embeddings_client.py         🚧 TODO - DIAL embeddings client
+   │   ├── text_processor.py            🚧 TODO - Text processing and vector operations
+   │   └── microwave_manual.txt         ✅ Knowledge base document
    ├── chat/
-   │   └── chat_completion_client.py    # ✅ DIAL chat completion client
+   │   └── chat_completion_client.py    ✅ DIAL chat completion client
    ├── models/
-   │   ├── conversation.py              # ✅ Conversation management
-   │   ├── message.py                   # ✅ Message structure
-   │   └── role.py                      # ✅ Role definitions
+   │   ├── conversation.py              ✅ Conversation management
+   │   ├── message.py                   ✅ Message structure
+   │   └── role.py                      ✅ Role definitions
    └── utils/
-       └── text.py                      # ✅ Text chunking utilities
-   docker-compose.yml                   # ✅ PostgreSQL with pgvector
-   init-scripts/init.sql                # ✅ Database initialization
+       └── text.py                      ✅ Text chunking utilities
+   docker-compose.yml                   ✅ PostgreSQL with pgvector
+   init-scripts/init.sql                ✅ Database initialization
    ```
 
 ## 🖌️ Application Architecture:
@@ -61,6 +61,8 @@ The RAG system follows a three-step process:
 3. **🤖 Generation**: Use LLM to generate accurate answer based on the provided context
 
 ## 📝 Your Tasks
+
+### If the task in the main branch is hard for you, then switch to the `with-detailed-description` branch
 
 Complete the implementation by filling in all the TODO sections across these files:
 
