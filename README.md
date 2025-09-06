@@ -90,7 +90,7 @@ CREATE TABLE vectors (
     id SERIAL PRIMARY KEY,
     document_name VARCHAR(64),
     text TEXT NOT NULL,
-    embedding VECTOR(1536)
+    embedding VECTOR(384)
 );
 ```
 
