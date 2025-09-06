@@ -2,6 +2,15 @@ import json
 
 import requests
 
+#TODO:
+# ---
+# https://platform.openai.com/docs/api-reference/embeddings
+# ---
+# Implement EmbeddingsClient:
+# - constructor should apply model name and api key
+# - endpoint is https://api.openai.com/v1/embeddings
+# - create method `get_embeddings` that will generate embeddings for input list (don't forget about dimensions)
+#   with Embedding model and return back a dict with indexed embeddings (key is index from input list and value vector list)
 
 class EmbeddingsClient:
     _endpoint: str
@@ -15,63 +24,29 @@ class EmbeddingsClient:
         self._api_key = "Bearer " + api_key
         self._model_name = model_name
 
-    def get_embeddings(
-            self, inputs: str | list[str],
-            dimensions: int,
-            print_response: bool = False
-    ) -> dict[int, list[float]]:
-        """
-        Generate dict of indexed embeddings:
-            inputs[0](text) -> [0][embedding]
-            inputs[1](text) -> [1][embedding]
-            ...
+# Hint:
+# Request:
+# curl https://api.openai.com/v1/embeddings \
+#   -H "Content-Type: application/json" \
+#   -H "Authorization: Bearer $OPENAI_API_KEY" \
+#   -d '{
+#     "input": "Your text string goes here",
+#     "model": "text-embedding-3-small",
+#     "dimensions": 384
+#   }'
+#
+#  Response JSON:
+#  {
+#     "data": [
+#         {
+#             "embedding": [
+#                 0.19686688482761383,
+#                 ...
+#             ],
+#             "index": 0,
+#             "object": "embedding"
+#         }
+#     ],
+#     ...
+#  }
 
-        Args:
-            inputs: input text, can be singular string or list of strings
-            dimensions: number of dimensions
-            print_response: to print response in chat or not
-        """
-
-        print(f"Searching similarities for `{inputs}` \nAnd such dimensions: {dimensions}\n📋Results:\n")
-
-        headers = {
-            "Authorization": self._api_key,
-            "Content-Type": "application/json"
-        }
-        request_data = {
-            #TODO: add:
-            # - inputs
-            # - dimensions
-            # - model
-            # https://platform.openai.com/docs/guides/embeddings?lang=curl
-        }
-
-        response = requests.post(url=self._endpoint, headers=headers, json=request_data, timeout=60)
-
-        if response.status_code == 200:
-            # TODO: Get response:
-            #  Response JSON:
-            #  {
-            #     "data": [
-            #         {
-            #             "embedding": [
-            #                 0.19686688482761383,
-            #                 ...
-            #             ],
-            #             "index": 0,
-            #             "object": "embedding"
-            #         }
-            #     ],
-            #     ...
-            #  }
-            response_json = None # TODO: Parse to json (response.json())
-            data = None # TODO: Get `data`
-            if print_response:
-                print("\n" + "=" * 50 + " RESPONSE " + "=" * 50)
-                print(json.dumps(response_json, indent=2))
-                print("=" * 108)
-            return None # TODO: Return self._from_data(data)
-        raise Exception(f"HTTP {response.status_code}: {response.text}")
-
-    def _from_data(self, data: list[dict]) -> dict[int, list[float]]:
-        return {embedding_obj['index']: embedding_obj['embedding'] for embedding_obj in data}
