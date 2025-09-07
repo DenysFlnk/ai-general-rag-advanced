@@ -37,11 +37,11 @@ By completing this task, you will learn:
    task/
    ├── app.py                           🚧 TODO - Main RAG application
    ├── embeddings/
-   │   ├── embeddings_client.py         🚧 TODO - DIAL embeddings client
+   │   ├── embeddings_client.py         🚧 TODO - Embeddings client
    │   ├── text_processor.py            🚧 TODO - Text processing and vector operations
    │   └── microwave_manual.txt         ✅ Knowledge base document
    ├── chat/
-   │   └── chat_completion_client.py    ✅ DIAL chat completion client
+   │   └── chat_completion_client.py    ✅ Сhat completion client
    ├── models/
    │   ├── conversation.py              ✅ Conversation management
    │   ├── message.py                   ✅ Message structure
@@ -66,9 +66,9 @@ The RAG system follows a three-step process:
 Complete the implementation by filling in all the TODO sections across these files:
 
 ### 🔌 **Step 1: Embeddings Client (`embeddings_client.py`)**
-- Complete the `get_embeddings()` method to call DIAL embeddings API
+- Complete the `get_embeddings()` method to call embeddings API
 - Parse the response and extract embeddings data
-- Handle the request/response format according to DIAL API specification
+- Handle the request/response format according to API specification
 
 ### 📊 **Step 2: Text Processing (`text_processor.py`)**
 - Implement `process_text_file()` to load, chunk, and store document embeddings
@@ -77,7 +77,7 @@ Complete the implementation by filling in all the TODO sections across these fil
 - Complete `search()` method for semantic similarity search using pgvector
 
 ### 🚀 **Step 3: Main Application (`app.py`)**
-- Initialize DIAL clients with proper model deployments
+- Initialize clients with proper model deployments
 - Implement document processing workflow
 - Complete the RAG pipeline: Retrieval → Augmentation → Generation
 - Handle user interaction and conversation management
