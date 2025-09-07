@@ -37,7 +37,7 @@ By completing this task, you will learn:
    task/
    ├── app.py                           🚧 TODO - Main RAG application
    ├── embeddings/
-   │   ├── embeddings_client.py         🚧 TODO - DIAL embeddings client
+   │   ├── embeddings_client.py         🚧 TODO - Embeddings client
    │   ├── text_processor.py            🚧 TODO - Text processing and vector operations
    │   └── microwave_manual.txt         ✅ Knowledge base document
    ├── chat/
