@@ -3,8 +3,6 @@ import requests
 from task.models.message import Message
 from task.models.role import Role
 
-DIAL_CHAT_COMPLETION = 'https://ai-proxy.lab.epam.com/openai/deployments/{model}/chat/completions'
-
 
 class ChatCompletionClient:
     _endpoint: str
