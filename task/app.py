@@ -24,7 +24,7 @@ USER_PROMPT = """
 
 
 #TODO:
-# - create embeddings client with 'text-embedding-3-small-' model
+# - create embeddings client with 'text-embedding-3-small' model
 # - create chat completion client
 # - create text processor, DB config: {'host': 'localhost','port': 5433,'database': 'vectordb','user': 'postgres','password': 'postgres'}
 # ---
